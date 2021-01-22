@@ -66,3 +66,18 @@ test("update starts at 0", () => {
   expect(CounterValueComponent.text()).toBe("0");
 });
 ```
+
+- Testing Click event :
+
+```javascript
+const wrapper = shallow(<Counter />);
+// find the decrement button
+const decrementButton = wrapper.find("[data-test='decrement-button']");
+expect(decrementButton.length).toBe(1);
+
+// click on decrement button
+decrementButton.simulate("click");
+// check if the counter value is -1 if we first click it
+const CounterValue = wrapper.find("[data-test='counter-value']");
+expect(CounterValue.text()).toBe("0");
+```

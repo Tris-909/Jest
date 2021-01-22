@@ -3,93 +3,99 @@ import Counter from './Counter';
 import EnzymeAdapter from '@wojtekmaj/enzyme-adapter-react-17';
 import Enzyme, {shallow} from 'enzyme';
 
-//Setting up enzyme
 Enzyme.configure({ adapter: new EnzymeAdapter() });
 
-const getComponent = (attr) => {
-    const wrapper = shallow(<Counter />);
+const setUp = () => {
+    return shallow(<Counter />);
+}
+
+const findByAttributes = (wrapper, attr) => {
     return wrapper.find(`[data-test='${attr}']`);
 }
 
-
-describe("Testing rendering process", () => {
-    test("render without errors", () => {
-        const appComponent = getComponent('component-app');
-        expect(appComponent.length).toBe(1);
-    });
-    
-    test("render increment button", () => {
-        const incrementButton = getComponent('increment-button');
-        expect(incrementButton.length).toBe(1);
-    });
-    
-    test("render counter display", () => {
-        const counterComponent = getComponent('component-counter');
-        expect(counterComponent.length).toBe(1);
+describe('render components process...', () => {
+    test("render Counter Component without errors", () => {
+        const wrapper = setUp();
+        const AppComponent = findByAttributes(wrapper, 'app-component');
+        expect(AppComponent.length).toBe(1);
     });
 
-    test("render decrement button", () => {
-        const decrementButton = getComponent('decrement-button');
-        expect(decrementButton.length).toBe(1);
+    test("render Counter Display", () => {
+        const wrapper = setUp();
+        const CounterDisplay = findByAttributes(wrapper, 'counter-display');
+        expect(CounterDisplay.length).toBe(1);
+    });
+
+    test("render Counter Value and Counter Vaue is equal to 0", () => {
+        const wrapper = setUp();
+        const CounterValue = findByAttributes(wrapper, 'counter-value');
+        expect(CounterValue.text()).toBe("0");
+    });
+
+    test("render Counter Increment Button", () => {
+        const wrapper = setUp();
+        const IncrementButton = findByAttributes(wrapper, 'increment');
+        expect(IncrementButton.length).toBe(1);
+    });
+
+    test("render Counter Decrement Button", () => {
+        const wrapper = setUp();
+        const DecrementButton = findByAttributes(wrapper, 'decrement');
+        expect(DecrementButton.length).toBe(1);
     });
 });
 
+describe("Testing Increment Function", () => {
+    test("Click Increment Button will the counter value is equal to 1", () => {
+        // Check for Increment Button Exist and Click Increment Button
+        const wrapper = setUp();
+        const Increment = findByAttributes(wrapper, 'increment');
+        expect(Increment.length).toBe(1);
+        Increment.simulate('click');
 
-test("update starts at 0", () => {
-    const CounterValueComponent = getComponent('counter-value');
-    expect(CounterValueComponent.text()).toBe('1');
+        // Check if Counter display value is equal to 1
+        const Value = findByAttributes(wrapper, 'counter-value');
+        expect(Value.text()).toBe("1"); 
+    });
 });
 
-test("clicking on button increment counter display", () => {
-    const wrapper = shallow(<Counter />);
-    const IncrementButton = wrapper.find("[data-test='increment-button']");
-    IncrementButton.simulate('click');
-    const CounterValue = wrapper.find("[data-test='counter-value']").text();
-    expect(CounterValue).toBe('2');
+describe("Testing Decrement Function", () => {
+    test("Click Decrement Button will the counter value is equal to -1", () => {
+        // Click Decrement Button
+        const wrapper = setUp();
+        const Decrement = findByAttributes(wrapper, 'decrement');
+        Decrement.simulate('click');
+
+        // Counter Value is equal to -1
+        const Value = findByAttributes(wrapper, 'counter-value');
+        expect(Value.text()).toBe("0");    
+    });
 });
 
-test("clicking on decrement button will decrease counter display value by 1", () => {
-    const wrapper = shallow(<Counter />);
-    // find the decrement button
-    const decrementButton = wrapper.find("[data-test='decrement-button']");
-    expect(decrementButton.length).toBe(1);
+describe("Testing for warning text and remove it if certain of actions taken", () => {
+    test("Show warning text if neccessary, stop user from decreasing counter value below 0 and delete warning text if user click on increment button", () => {
+        const wrapper = setUp();
+        // Click Increment button and click decrement button as well to reducer counter value is equal to 0
+        const Increment = findByAttributes(wrapper, 'increment');
+        Increment.simulate('click');
+        const Decrement = findByAttributes(wrapper, 'decrement');
+        Decrement.simulate('click');
 
-    // click on decrement button
-    decrementButton.simulate('click');
+        // when counter value is equal to 0 show warning text
+        const Value = findByAttributes(wrapper, 'counter-value');
+        expect(Value.text()).toBe("0");
+        const Warning = findByAttributes(wrapper, 'warning-text');
+        expect(Warning.length).toBe(1);
 
-    // check if the counter value is -1 if we first click it
-    const CounterValue = wrapper.find("[data-test='counter-value']");
-    expect(CounterValue.text()).toBe("0");
-});
+        // click decrement button again and make sure counter value still remain 0
+        Decrement.simulate('click');
+        expect(Value.text()).toBe("0");
 
-test("Showing Error when counter value is equal to 0 and stop user decreasing value", () => {
-    const wrapper = shallow(<Counter />);
-    // find decrease button & increase button
-    const decreaseButton = wrapper.find("[data-test='decrement-button']");
-    expect(decreaseButton.length).toBe(1);
-    const incrementButton = wrapper.find("[data-test='increment-button']");
-    expect(incrementButton.length).toBe(1);
-
-    // click on decrease button and decrease the counter value to 0
-    decreaseButton.simulate('click');
-    const CounterValue = wrapper.find("[data-test='counter-value']");
-    expect(CounterValue.text()).toBe("0");
-
-    // if counter value is 0 then show the warning
-    const warningText = wrapper.find("[data-test='warning-text']");
-    expect(warningText.length).toBe(1);
-
-    // stop the counter drop below 0 when you click decrease button it again
-    const newDecreaseButton = wrapper.find("[data-test='decrement-button']");
-    newDecreaseButton.simulate('click');
-    const newCounterValue = wrapper.find("[data-test='counter-value']");
-    expect(newCounterValue.text()).toBe("0");
-
-    // increase by 1 again and check if warning length === 0
-    const newIncreaseButton = wrapper.find("[data-test='increment-button']");
-    newIncreaseButton.simulate('click');
-    const CounterValueAfterIncrease =  wrapper.find("[data-test='counter-value']");
-    expect(CounterValueAfterIncrease.text()).toBe("1");
-    const newWarningText = wrapper.find("[data-test='warning-text']");
-    expect(newWarningText.length).toBe(0);
+        // click the increment button again and make sure warning text have gone away
+        Increment.simulate('click');
+        const NewValue = findByAttributes(wrapper, 'counter-value');
+        expect(NewValue.text()).toBe("1");
+        const CheckWarning = findByAttributes(wrapper, 'warning-text');
+        expect(CheckWarning.length).toBe(0);
+    });
 });
