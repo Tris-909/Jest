@@ -47,12 +47,22 @@ Studying to test React app from a udemy course
 <div data-test="component-app">Counter</div>
 ```
 
-- Testing :
+- Testing Rendering Component:
 
 ```javascript
 test("render without errors", () => {
   const wrapper = shallow(<Counter />);
   const appComponent = wrapper.find("[data-test='component-app']");
   expect(appComponent.length).toBe(1);
+});
+```
+
+- Testing Rendering text in Component :
+
+```javascript
+test("update starts at 0", () => {
+  const wrapper = shallow(<Counter />);
+  const CounterValueComponent = wrapper.find("[data-test='counter-value']");
+  expect(CounterValueComponent.text()).toBe("0");
 });
 ```
