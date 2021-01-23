@@ -1,6 +1,6 @@
 import React from 'react';
 import Congrat from './Congrat';
-import {findByTestAttribute} from '../../test/Utiltests';
+import {findByTestAttribute} from '../../test/Utiltests';   
 import {shallow} from 'enzyme';
 
 const setUp = (props={}) => {
@@ -15,12 +15,12 @@ test("Render Congrat Component without errors", () => {
 
 test("Render no text when `success` props is false", () => {
     const wrapper = setUp({success: false});
-    const CongratComponentText = findByTestAttribute(wrapper, 'congrat-component').text();
-    expect(CongratComponentText).toBe('');
+    const CongratComponentText = findByTestAttribute(wrapper, 'congrat-component-text').length;
+    expect(CongratComponentText).toBe(0);
 });
 
 test("render none empty congrat message", () => {
     const wrapper = setUp({ success: true });
-    const CongratComponentText = findByTestAttribute(wrapper, 'congrat-component').text();
-    expect(CongratComponentText.length).not.toBe(0);
+    const CongratComponentText = findByTestAttribute(wrapper, 'congrat-component-text').length;
+    expect(CongratComponentText).toBe(1);
 });
