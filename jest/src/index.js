@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Counter from './Counter/Counter';
+import Jotto from './Jotto/Jotto';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Counter />
+    <Jotto />
   </React.StrictMode>,
   document.getElementById('root')
 );

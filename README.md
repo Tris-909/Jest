@@ -81,3 +81,11 @@ decrementButton.simulate("click");
 const CounterValue = wrapper.find("[data-test='counter-value']");
 expect(CounterValue.text()).toBe("0");
 ```
+
+- Setting up setupTests.js in src directory of a react project to make the code inside there run before any tests :
+
+```javascript
+import Enzyme from "enzyme";
+import EnzymeAdapter from "@wojtekmaj/enzyme-adapter-react-17";
+Enzyme.configure({ adapter: new EnzymeAdapter() });
+```
