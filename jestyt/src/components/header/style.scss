@@ -1,0 +1,21 @@
+header {
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px;
+  position: relative;
+  background: #121212;
+  height: 10vh;
+
+  .wrap {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .logo {
+    font-size: 3rem;
+    padding-top: 10px;
+    color: white;
+  }
+}
