@@ -91,4 +91,37 @@ Enzyme.configure({ adapter: new EnzymeAdapter() });
 ```
 
 - Enzyme .dive() to reach to child component of the wrappers
-- Được dì Trang với cậu Hạnh cho ở nhờ nhà ở Sydney một phần là dễ thở hơn một phần là sẽ có nhiều thời gian hơn do không đi làm. Chịu khó một chút, cố gắng tập trung tiếp thu càng nhiều càng tốt rồi còn phải chuẩn bị cho interview nữa. Vì tất cả những gì mình phải trải qua chỉ cần có được tự do mình mong muốn đừng nói đến 1 2h sáng, xuyên đêm luôn cũng được.
+
+- Testing Reducer from Redux :
+
+  - SetUp a Redux Store like normal
+  - Go to a reducer file and :
+
+  ```
+    import {types} from '../../actions/types';
+    import postReducer from './reducer';
+
+    describe('Posts Reducer', () => {
+    test("Should return default state", () => {
+        const newState = postReducer(undefined, {});
+        expect(newState).toEqual([]);
+    });
+
+    test("Return newState when receive correct type", () => {
+        const posts = [{
+            title: 'Test1'
+        },
+        {
+            title: 'Test2'
+        },
+        {
+            title: 'Test3'
+        }];
+        const newState = postReducer(undefined, {
+            type: types.GET_POSTS,
+            payload: posts
+        });
+        expect(newState).toEqual(posts);
+    });
+  });
+  ```
