@@ -91,3 +91,4 @@ Enzyme.configure({ adapter: new EnzymeAdapter() });
 ```
 
 - Enzyme .dive() to reach to child component of the wrappers
+- Được dì Trang với cậu Hạnh cho ở nhờ nhà ở Sydney một phần là dễ thở hơn một phần là sẽ có nhiều thời gian hơn do không đi làm. Chịu khó một chút, cố gắng tập trung tiếp thu càng nhiều càng tốt rồi còn phải chuẩn bị cho interview nữa. Vì tất cả những gì mình phải trải qua chỉ cần có được tự do mình mong muốn đừng nói đến 1 2h sáng, xuyên đêm luôn cũng được.
