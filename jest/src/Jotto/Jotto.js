@@ -1,12 +1,12 @@
 import React from 'react';
 import GuessWord from './components/GuessWords';
-import Congrat from './components/Congrat';
+import Input from './components/Input';
 
 const Jotto = () => {
     return(
         <div>
             <h1 style={{textAlign: 'center'}}>Jotto</h1>
-            <Congrat success={false} />
+            <Input />
             <GuessWord guessedWords={[
                 {
                     guessedWord: 'train',

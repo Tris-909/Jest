@@ -89,3 +89,5 @@ import Enzyme from "enzyme";
 import EnzymeAdapter from "@wojtekmaj/enzyme-adapter-react-17";
 Enzyme.configure({ adapter: new EnzymeAdapter() });
 ```
+
+- Enzyme .dive() to reach to child component of the wrappers
